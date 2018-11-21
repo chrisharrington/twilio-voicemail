@@ -8,7 +8,8 @@
   "license": "MIT",
   "scripts": {
     "setup": "yarn global add typescript nodemon",
-    "run:dev": "yarn && nodemon"
+    "run:dev": "yarn && nodemon",
+    "run:prod": "yarn && tsc && node dist/index.js"
   },
   "dependencies": {
     "@sendgrid/mail": "^6.3.1",
