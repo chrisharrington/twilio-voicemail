@@ -23,7 +23,7 @@ app.get('/', (request: express.Request, response: express.Response) => {
         voiceResponse.say('Go.');
         voiceResponse.record({
             playBeep: true,
-            recordingStatusCallback: Config.url
+            recordingStatusCallback: `${Config.url}:${Config.port}`
         });
 
         response.writeHead(200, { 'Content-Type': 'text/xml' });
