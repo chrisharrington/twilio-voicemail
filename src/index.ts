@@ -38,7 +38,7 @@ app.post('/', async (req: express.Request, res: express.Response) => {
     try {
         const body = req.body;
         console.log(body);
-        if (!body.RecordingStatus || body.RecordingStatus !== RecordingStatus.Completed) {
+        if (!body.RecordingUrl) {
             res.sendStatus(200);
             return;
         }
