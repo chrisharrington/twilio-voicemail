@@ -9,7 +9,7 @@
   "scripts": {
     "run:build": "yarn && ./node_modules/.bin/tsc",
     "run:dev": "yarn && ./node_modules/.bin/copyfiles ./assets/greeting.wav ./dist && ./node_modules/.bin/nodemon",
-    "run:prod": "yarn && cp /secret.json src/. && ./node_modules/.bin/tsc && node dist/index.js"
+    "run:prod": "yarn && cp /secret.json src/. && ./node_modules/.bin/tsc && cp ./assets/greeting.wav dist/. && node dist/index.js"
   },
   "dependencies": {
     "@sendgrid/mail": "^6.3.1",

@@ -32,7 +32,7 @@ app.get('/', (_: express.Request, response: express.Response) => {
 });
 
 app.get('/greeting', async (_: express.Request, response: express.Response) => {
-    response.sendFile(path.resolve(__dirname, './assets/greeting.wav'));
+    response.sendFile(path.resolve(__dirname, './greeting.wav'));
 });
 
 app.post('/', async (request: express.Request, response: express.Response) => {
