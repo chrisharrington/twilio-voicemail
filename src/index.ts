@@ -19,7 +19,7 @@ app.use(bodyParser());
 app.get('/', (_: express.Request, response: express.Response) => {
     try {
         const vr = new VoiceResponse();
-        vr.play({ loop: 1 }, 'http://chrisharrington.me:4444/greeting');
+        vr.play({ loop: 1 }, 'https://voicemail.chrisharrington.me/greeting');
         vr.record({ playBeep: true, transcribe: true });
         vr.hangup();
 
@@ -33,33 +33,6 @@ app.get('/', (_: express.Request, response: express.Response) => {
 
 app.get('/greeting', async (_: express.Request, response: express.Response) => {
     response.sendFile(path.resolve(__dirname, './assets/greeting.wav'));
-});
-
-app.get('/blah', async (_: express.Request, response: express.Response) => {
-    try {
-        const recording = await superagent.get('https://api.twilio.com/2010-04-01/Accounts/AC0ab5c5ae76cdb1fa06c1583195aa5f2a/Recordings/REaf553d88844e8123d2c958a33b1138c8');
-
-        Sendgrid.setApiKey(Secret.sendGridApiKey);
-        await Sendgrid.send({
-            to: Config.email,
-            from: 'voicemail@chrisharrington.me',
-            subject: 'New Voicemail',
-            text: 'You have a new voicemail.',
-            attachments: [
-                {
-                    content: recording.body.toString('base64'),
-                    filename: 'voicemail.wav',
-                    type: 'audio/wav',
-                    disposition: 'attachment',
-                    contentId: 'voicemail'
-                }
-            ]
-        });
-
-        response.send('yep');
-    } catch (e) {
-        response.status(500).send(e);
-    }
 });
 
 app.post('/', async (request: express.Request, response: express.Response) => {
