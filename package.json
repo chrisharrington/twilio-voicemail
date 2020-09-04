@@ -20,7 +20,7 @@
     "express": "^4.16.4",
     "module-alias": "^2.1.0",
     "moment": "^2.22.2",
-    "mongodb": "^3.1.8",
+    "mongodb": "^3.1.13",
     "nodemon": "^1.19.2",
     "request": "^2.88.0",
     "superagent": "^5.1.0",
