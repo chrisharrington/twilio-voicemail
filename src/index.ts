@@ -1,10 +1,11 @@
 import * as express from 'express';
+import { rateLimit } from 'express-rate-limit';
 import * as path from 'path';
 import * as twilio from 'twilio';
 import * as bodyParser from 'body-parser';
 import * as Sendgrid from '@sendgrid/mail';
 import * as superagent from 'superagent';
-
+import { WaveFile } from 'wavefile';
 import * as Config from './config.json';
 import * as Secret from './secret.json';
 
@@ -15,6 +16,7 @@ const VoiceResponse = twilio.twiml.VoiceResponse;
 Sendgrid.setApiKey(Secret.sendGridApiKey);
 
 app.use(bodyParser());
+app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100, standardHeaders: false, legacyHeaders: false }))
 
 app.get('/', (_: express.Request, response: express.Response) => {
     try {
@@ -43,11 +45,17 @@ app.post('/', async (request: express.Request, response: express.Response) => {
             return;
         }
 
+        console.log(JSON.stringify(request.body));
+
         const recording = await superagent.get(body.RecordingUrl);
+
+        const wav = new WaveFile();
+        wav.fromBase64(recording.body.toString('base64'));
+
         await Sendgrid.send({
             to: Config.email,
             from: 'voicemail@chrisharrington.me',
-            subject: 'New Voicemail',
+            subject: `New Voicemail from ${body.ClientSid || 'Unknown'}`,
             text: 'You have a new voicemail.',
             attachments: [
                 {
