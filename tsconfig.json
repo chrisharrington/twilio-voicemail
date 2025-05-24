@@ -4,11 +4,13 @@
         "module": "commonjs",
         "outDir": "dist",
         "sourceMap": true,
+        "skipLibCheck": true,
         "baseUrl": ".",
         "paths": {
             "@src/*": ["./src/*"]
         },
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "esModuleInterop": true
     },
     "include": [
         "src/**/*.ts",
